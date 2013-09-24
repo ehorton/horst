@@ -62,6 +62,8 @@ struct timeval the_time;
 
 int mon; /* monitoring socket */
 
+File *results; //Added
+results=fopen("results.txt", "a+"); //Added
 static FILE* DF = NULL;
 
 /* receive packet buffer
@@ -613,13 +615,13 @@ main(int argc, char** argv)
 
 	if (conf.allow_control) {
 		printlog("Allowing control socket");
-		control_init_pipe();
+		control_init_pipe(); //Creates pipe and data is saved to conf.control_pipe (no return)
 	}
 
 	if (conf.serveraddr)
-		mon = net_open_client_socket(conf.serveraddr, conf.port);
+		mon = net_open_client_socket(conf.serveraddr, conf.port); //Connects clients to server
 	else {
-		mon = open_packet_socket(conf.ifname, sizeof(buffer), conf.recv_buffer_size);
+		mon = open_packet_socket(conf.ifname, sizeof(buffer), conf.recv_buffer_size); //Creates a packet socket
 		if (mon <= 0)
 			err(1, "Couldn't open packet socket");
 
