@@ -34,9 +34,10 @@ CFLAGS+=-DPCAP
 LIBS+=-lpcap
 endif
 
-buildstamp=.build_debug$(DEBUG)pcap$(PCAP)
+#buildstamp=.build_debug$(DEBUG)pcap$(PCAP)
 
-all: $(buildstamp) $(NAME)
+#all: $(buildstamp) $(NAME)
+all: $(NAME)
 
 # include dependencies
 average.o: average.h util.h
@@ -74,6 +75,6 @@ clean:
 	-rm -f $(NAME)
 	-rm -f .build_*
 
-$(buildstamp):
-	make clean
-	touch $@
+#$(buildstamp):
+#	make clean
+#	touch $@
