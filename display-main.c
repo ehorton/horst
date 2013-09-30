@@ -386,20 +386,21 @@ update_dump_win(struct packet_info* p)
 	if (p->phy_flags & PHY_FLAG_BADFCS)
 		wattron(dump_win, RED);
 
-	wprintw(dump_win, "\n%02d ", p->phy_chan);
-	fprintf(results,"%s",p->phy_chan); //Added
-	wprintw(dump_win, "-%02d", -p->phy_signal);
-	fprintf(results,"%s",p->phy_signal); //Added
-	if (conf.have_noise)
+		wprintw(dump_win, "\n%02d ", p->phy_chan);
+		fprintf(results,"%s",p->phy_chan); //Added
+		wprintw(dump_win, "-%02d", -p->phy_signal);
+		fprintf(results,"%d",p->phy_signal); //Added
+	if (conf.have_noise){
 		wprintw(dump_win, "/%02d ", -p->phy_noise);
-		fprintf(results,"%s",p->phy_noise); //Added
-	else
+		fprintf(results,"%d",p->phy_noise); //Added
+	}
+	else 
 		wprintw(dump_win, " ");
-	wprintw(dump_win, "%3d ", p->phy_rate/10);
-	wprintw(dump_win, "%s ", ether_sprintf(p->wlan_src));
-	fprintf(results,"%s",p->wlan_src); //Added
-	wprintw(dump_win, "(%s) ", ether_sprintf(p->wlan_bssid));
-	fprintf(results,"%s",p->wlan_bssid); //Added
+		wprintw(dump_win, "%3d ", p->phy_rate/10);
+		wprintw(dump_win, "%s ", ether_sprintf(p->wlan_src));
+		fprintf(results,"%s",p->wlan_src); //Added
+		wprintw(dump_win, "(%s) ", ether_sprintf(p->wlan_bssid));
+		fprintf(results,"%s",p->wlan_bssid); //Added
 
 	if (p->phy_flags & PHY_FLAG_BADFCS) {
 		wprintw(dump_win, "*BADFCS* ");
@@ -408,7 +409,7 @@ update_dump_win(struct packet_info* p)
 
 	if (p->pkt_types & PKT_TYPE_OLSR) {
 		wprintw(dump_win, "%-7s%s ", "OLSR", ip_sprintf(p->ip_src));
-		fprintf(results,"%s",p->ip_src); //Added
+		fprintf(results,"%d",p->ip_src); //Added
 		switch (p->olsr_type) {
 			case HELLO_MESSAGE: wprintw(dump_win, "HELLO"); break;
 			case TC_MESSAGE: wprintw(dump_win, "TC"); break;
@@ -417,50 +418,50 @@ update_dump_win(struct packet_info* p)
 			case LQ_HELLO_MESSAGE: wprintw(dump_win, "LQ_HELLO"); break;
 			case LQ_TC_MESSAGE: wprintw(dump_win, "LQ_TC"); break;
 			default: wprintw(dump_win, "(%d)", p->olsr_type);
-			fprintf(results,"%s",p->olsr_type); //Added
+			fprintf(results,"%d",p->olsr_type); //Added
 		}
 	}
 	else if (p->pkt_types & PKT_TYPE_BATMAN) {
 		wprintw(dump_win, "%-7s%s", "BAT", ip_sprintf(p->ip_src));
-		fprintf(results,"%s",p->ip_src); //Added
+		fprintf(results,"%d",p->ip_src); //Added
 		wprintw(dump_win, " -> %s", ip_sprintf(p->ip_dst));
-		fprintf(results,"%s",p->ip_dst); //Added
+		fprintf(results,"%d",p->ip_dst); //Added
 	}
 	else if (p->pkt_types & PKT_TYPE_MESHZ) {
 		wprintw(dump_win, "%-7s%s",
 			p->tcpudp_port == 9256 ? "MC_NBR" : "MC_RT",
 			ip_sprintf(p->ip_src));
-			fprintf(results,"%s",p->ip_src); //Added
+			fprintf(results,"%d",p->ip_src); //Added
 		wprintw(dump_win, " -> %s", ip_sprintf(p->ip_dst));
-		fprintf(results,"%s",p->ip_dst); //Added
+		fprintf(results,"%d",p->ip_dst); //Added
 	}
 	else if (p->pkt_types & PKT_TYPE_UDP) {
 		wprintw(dump_win, "%-7s%s", "UDP", ip_sprintf(p->ip_src));
-		fprintf(results,"%s",p->ip_src); //Added
+		fprintf(results,"%d",p->ip_src); //Added
 		wprintw(dump_win, " -> %s", ip_sprintf(p->ip_dst));
-		fprintf(results,"%s",p->ip_dst); //Added
+		fprintf(results,"%d",p->ip_dst); //Added
 	}
 	else if (p->pkt_types & PKT_TYPE_TCP) {
 		wprintw(dump_win, "%-7s%s", "TCP", ip_sprintf(p->ip_src));
-		fprintf(results,"%s",p->ip_src); //Added
+		fprintf(results,"%d",p->ip_src); //Added
 		wprintw(dump_win, " -> %s", ip_sprintf(p->ip_dst));
-		fprintf(results,"%s",p->dst); //Added
+		fprintf(results,"%d",p->ip_dst); //Added
 	}
 	else if (p->pkt_types & PKT_TYPE_ICMP) {
 		wprintw(dump_win, "%-7s%s", "PING", ip_sprintf(p->ip_src));
-		fprintf(results,"%s",p->ip_src); //Added
+		fprintf(results,"%d",p->ip_src); //Added
 		wprintw(dump_win, " -> %s", ip_sprintf(p->ip_dst));
-		fprintf(results,"%s",p->ip_dst); //Added
+		fprintf(results,"%d",p->ip_dst); //Added
 	}
 	else if (p->pkt_types & PKT_TYPE_IP) {
 		wprintw(dump_win, "%-7s%s", "IP", ip_sprintf(p->ip_src));
-		fprintf(results,"%s",p->ip_src); //Added
+		fprintf(results,"%d",p->ip_src); //Added
 		wprintw(dump_win, " -> %s", ip_sprintf(p->ip_dst));
-		fprintf(results,"%s",p->ip_dst); //Added
+		fprintf(results,"%d",p->ip_dst); //Added
 	}
 	else if (p->pkt_types & PKT_TYPE_ARP) {
 		wprintw(dump_win, "%-7s", "ARP", ip_sprintf(p->ip_src));
-		fprintf(results,"%s",p->ip_src); //Added
+		fprintf(results,"%d",p->ip_src); //Added
 	}
 	else {
 		wprintw(dump_win, "%-7s", get_packet_type_name(p->wlan_type));
@@ -488,7 +489,7 @@ update_dump_win(struct packet_info* p)
 				wprintw(dump_win, "'%s' %llx", p->wlan_essid,
 					p->wlan_tsf);
 				fprintf(results,"%s",p->wlan_essid); //Added
-				fprintf(results,"%s",p->wlan_tsf); //Added
+				fprintf(results,"%d",p->wlan_tsf); //Added
 				break;
 			case IEEE80211_STYPE_PROBE_REQ:
 				wprintw(dump_win, "'%s'", p->wlan_essid);

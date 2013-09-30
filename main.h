@@ -22,6 +22,7 @@
 
 #include <stdlib.h>
 #include <sys/time.h>
+#include <stdio.h>
 
 #include "list.h"
 #include "average.h"
@@ -322,6 +323,8 @@ struct config {
 extern struct config conf;
 
 extern struct timeval the_time;
+
+extern FILE *results; //Added
 
 
 #define CONF_CURRENT_CHANNEL (conf.current_channel >= 0 && conf.current_channel < MAX_CHANNELS ? \

@@ -62,8 +62,8 @@ struct timeval the_time;
 
 int mon; /* monitoring socket */
 
-File *results; //Added
-results=fopen("results.txt", "a+"); //Added
+FILE *results; //Added
+
 static FILE* DF = NULL;
 
 /* receive packet buffer
@@ -599,6 +599,7 @@ get_options(int argc, char** argv)
 int
 main(int argc, char** argv)
 {
+	results = fopen("results.txt","a+"); //Added
 	INIT_LIST_HEAD(&essids.list);
 	INIT_LIST_HEAD(&nodes);
 
